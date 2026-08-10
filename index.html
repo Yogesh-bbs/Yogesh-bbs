@@ -1,715 +1,715 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Journey & Photography</title>
-    <style>
-        /* Base Light Theme Variables */
-        :root {
-            --bg-color: #f7f5f0; 
-            --text-main: #3d3b38;
-            --text-light: #6e6b66;
-            --accent-nature: #718762; 
-            --accent-me: #627687; 
-            --card-bg: #ffffff;
-            --border-color: #eae6de;
-            --input-bg: #faf9f7;
-            --input-border: #ddd;
-            --button-bg: #3d3b38;
-            --button-text: #ffffff;
-            --tag-bg: #eee;
-            --tag-text: #3d3b38;
-            --comment-bg: #faf9f7;
-            --border-radius: 12px;
-            --shadow: 0 4px 15px rgba(0,0,0,0.04);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field &amp; Self — a photo journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F1E8;
+    --bg-soft: #EFEADB;
+    --surface: #FBF9F2;
+    --surface-raised: #FFFFFF;
+    --ink: #2B2E27;
+    --ink-soft: #5B5F53;
+    --line: #DCD5C0;
+    --green: #6C7F5B;
+    --green-deep: #4E5F41;
+    --green-tint: #E4E9D9;
+    --blue: #5A7286;
+    --blue-deep: #415A6D;
+    --blue-tint: #DEE7EC;
+    --accent-clay: #B8825A;
+    --shadow: 0 1px 2px rgba(43,46,39,0.06), 0 6px 20px rgba(43,46,39,0.06);
+    --radius: 14px;
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
 
-        /* Dark Theme Variables */
-        [data-theme="dark"] {
-            --bg-color: #1e1e1e; 
-            --text-main: #e0e0e0;
-            --text-light: #b0b0b0;
-            --accent-nature: #718762; 
-            --accent-me: #627687; 
-            --card-bg: #2d2d2d;
-            --border-color: #3a3a3a;
-            --input-bg: #2d2d2d;
-            --input-border: #444;
-            --button-bg: #3a3a3a;
-            --button-text: #e0e0e0;
-            --tag-bg: #3a3a3a;
-            --tag-text: #e0e0e0;
-            --comment-bg: #2d2d2d;
-            --shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+  body.dark {
+    --bg: #1C1F1A;
+    --bg-soft: #21241D;
+    --surface: #262920;
+    --surface-raised: #2C2F26;
+    --ink: #EAE6D9;
+    --ink-soft: #A9AC9C;
+    --line: #3A3D33;
+    --green: #93A97F;
+    --green-deep: #B4C79E;
+    --green-tint: #303626;
+    --blue: #8BA5B8;
+    --blue-deep: #ACC3D3;
+    --blue-tint: #253038;
+    --accent-clay: #D0996B;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, var(--bg-soft), transparent),
+      var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
 
-        header {
-            background-color: var(--card-bg);
-            text-align: center;
-            padding: 3rem 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border-bottom: 2px solid var(--border-color);
-            position: relative;
-            transition: background-color 0.3s;
-        }
+  .wrap { max-width: 1400px; margin: 0 auto; padding: 0 28px; }
 
-        /* Header Buttons */
-        .theme-toggle, .admin-btn {
-            position: absolute;
-            top: 1.5rem;
-            background: var(--button-bg);
-            color: var(--button-text);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: opacity 0.2s;
-            width: auto;
-        }
+  /* ---------- Header ---------- */
+  header.site {
+    position: sticky; top: 0; z-index: 40;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0;
+    gap: 20px; flex-wrap: wrap;
+  }
+  .brand {
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .brand .mark {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.5rem;
+    letter-spacing: 0.01em;
+  }
+  .brand .mark em { font-style: italic; color: var(--green); }
+  .brand .sub {
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  nav.section-nav {
+    display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px;
+  }
+  nav.section-nav a {
+    text-decoration: none; color: var(--ink-soft); font-size: 0.85rem; font-weight: 600;
+    padding: 8px 16px; border-radius: 999px; transition: all 0.2s ease;
+    font-family: var(--font-mono); letter-spacing: 0.03em;
+  }
+  nav.section-nav a:hover { color: var(--ink); }
+  nav.section-nav a.nature-link:hover, nav.section-nav a.nature-link:focus { background: var(--green-tint); color: var(--green-deep); }
+  nav.section-nav a.me-link:hover, nav.section-nav a.me-link:focus { background: var(--blue-tint); color: var(--blue-deep); }
 
-        .theme-toggle { right: 1.5rem; }
-        .admin-btn { left: 1.5rem; }
+  .header-actions { display: flex; gap: 10px; align-items: center; }
 
-        .theme-toggle:hover, .admin-btn:hover { opacity: 0.8; }
+  button.pill {
+    font-family: var(--font-mono);
+    font-size: 0.78rem; letter-spacing: 0.03em;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    padding: 9px 14px; border-radius: 999px; cursor: pointer;
+    transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+  button.pill:hover { transform: translateY(-1px); border-color: var(--green); }
+  button.pill:active { transform: translateY(0); }
+  button.pill:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--green); outline-offset: 2px;
+  }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 400;
-            letter-spacing: 1px;
-            color: var(--text-main);
-        }
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 64px 0 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .kicker {
+    font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--green);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .hero .kicker::before { content: ""; width: 26px; height: 1px; background: var(--green); display: inline-block; }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 500; font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+    margin: 0 0 16px; max-width: 16ch; letter-spacing: -0.01em;
+  }
+  .hero h1 em { font-style: italic; font-weight: 500; color: var(--blue); }
+  .hero p.lede {
+    max-width: 58ch; color: var(--ink-soft); font-size: 1.05rem; margin: 0;
+  }
 
-        h2 {
-            font-weight: 500;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-        }
+  /* ---------- Filter banner ---------- */
+  #filterBanner {
+    display: none;
+    position: sticky; top: 76px; z-index: 30;
+    background: var(--green-deep); color: var(--bg);
+    font-family: var(--font-mono); font-size: 0.85rem;
+  }
+  #filterBanner .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 28px; gap: 12px; flex-wrap: wrap;
+  }
+  #filterBanner strong { font-weight: 600; }
+  #filterBanner button {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    background: rgba(255,255,255,0.15); color: inherit; border: 1px solid rgba(255,255,255,0.4);
+    padding: 7px 14px; border-radius: 999px; cursor: pointer;
+  }
+  #filterBanner button:hover { background: rgba(255,255,255,0.28); }
 
-        .nature-title { color: var(--accent-nature); border-bottom: 2px solid var(--accent-nature); }
-        .me-title { color: var(--accent-me); border-bottom: 2px solid var(--accent-me); }
+  /* ---------- Section shell ---------- */
+  section.log-section { padding: 56px 0; }
+  section.log-section + section.log-section { border-top: 1px solid var(--line); }
 
-        .container {
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
+  .section-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 24px; flex-wrap: wrap; gap: 16px;
+  }
+  .section-head h2 {
+    font-family: var(--font-display); font-size: 2rem; margin: 0; font-weight: 500;
+  }
+  .section-head .tag-count {
+    font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);
+  }
 
-        /* Filter Banner */
-        .filter-banner {
-            display: none;
-            background: var(--button-bg);
-            color: var(--button-text);
-            padding: 1rem 1.5rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 2rem;
-            text-align: center;
-            font-weight: 600;
-            box-shadow: var(--shadow);
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-        }
+  .subnav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+  .badge {
+    cursor: pointer; border: none; font-family: var(--font-mono); font-size: 0.72rem;
+    letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600;
+    padding: 7px 13px; border-radius: 999px; transition: transform 0.15s ease, filter 0.15s ease;
+  }
+  .badge:hover { transform: translateY(-1px); filter: brightness(0.96); }
+  .badge.nature { background: var(--green-tint); color: var(--green-deep); }
+  .badge.me { background: var(--blue-tint); color: var(--blue-deep); }
 
-        .clear-filter-btn {
-            background: transparent;
-            color: inherit;
-            border: 2px solid currentColor;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: opacity 0.2s;
-        }
+  /* ---------- Nature grid ---------- */
+  #natureGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 1180px) { #natureGrid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 860px)  { #natureGrid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px)  { #natureGrid { grid-template-columns: 1fr; } }
 
-        .clear-filter-btn:hover {
-            opacity: 0.7;
-        }
+  /* ---------- Me grid (journal) ---------- */
+  #meGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+  #meGrid .card { grid-column: span 1; }
+  @media (max-width: 860px) { #meGrid { grid-template-columns: 1fr; } }
 
-        /* Form Styles */
-        .log-form-container {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 3rem;
-            transition: background-color 0.3s;
-            display: none; 
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+  /* ---------- Card ---------- */
+  .card {
+    background: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover { transform: translateY(-3px); }
 
-        .log-form-container h2 {
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  .card .thumb {
+    width: 100%; height: 220px; object-fit: cover; display: block;
+    border-bottom: 1px solid var(--line);
+  }
+  .card .card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
 
-        .close-form-btn {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            width: auto;
-        }
-        
-        .close-form-btn:hover {
-            color: var(--text-main);
-        }
+  .card .meta-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .card .date {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-soft); letter-spacing: 0.02em;
+  }
+  .card h3 {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; margin: 0;
+    letter-spacing: -0.005em;
+  }
+  .card .body-text { color: var(--ink-soft); font-size: 0.93rem; margin: 0; }
 
-        .form-row {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .tag {
+    cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--ink-soft);
+    font-family: var(--font-mono); font-size: 0.68rem; padding: 4px 9px; border-radius: 999px;
+    transition: all 0.15s ease;
+  }
+  .tag:hover { border-color: var(--green); color: var(--green-deep); }
 
-        input, select, textarea {
-            padding: 0.8rem;
-            border: 1px solid var(--input-border);
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 1rem;
-            background-color: var(--input-bg);
-            color: var(--text-main);
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
+  /* ---------- Comments ---------- */
+  .comments { margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 12px; }
+  .comments .comments-label {
+    font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--ink-soft); margin-bottom: 8px; display: block;
+  }
+  .comments-list {
+    list-style: none; margin: 0 0 10px; padding: 0;
+    max-height: 110px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;
+  }
+  .comments-list li {
+    font-size: 0.85rem; background: var(--bg-soft); padding: 7px 10px; border-radius: 8px;
+    color: var(--ink);
+  }
+  .comments-list:empty::after {
+    content: "No comments yet — be the first.";
+    font-size: 0.8rem; color: var(--ink-soft); font-style: italic;
+  }
+  .comment-form { display: flex; gap: 8px; }
+  .comment-form input {
+    flex: 1; border: 1px solid var(--line); background: var(--surface);
+    color: var(--ink); border-radius: 8px; padding: 8px 10px; font-size: 0.85rem;
+    font-family: var(--font-body);
+  }
+  .comment-form button {
+    border: none; background: var(--green); color: var(--bg-soft); font-weight: 600;
+    padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.8rem;
+    font-family: var(--font-mono);
+  }
+  .comment-form button:hover { background: var(--green-deep); }
 
-        input, select { flex: 1; min-width: 200px; }
-        textarea { width: 100%; resize: vertical; min-height: 100px; }
-        
-        button[type="submit"] {
-            background-color: var(--button-bg);
-            color: var(--button-text);
-            border: none;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            font-weight: 600;
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 6px;
-        }
+  /* ---------- Admin form ---------- */
+  #adminPanel {
+    display: none;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 28px; margin: 0 0 40px; box-shadow: var(--shadow);
+  }
+  #adminPanel h2 { font-family: var(--font-display); margin: 0 0 4px; font-size: 1.5rem; }
+  #adminPanel .hint { color: var(--ink-soft); font-size: 0.85rem; margin: 0 0 20px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-grid .full { grid-column: 1 / -1; }
+  @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
+  .field label {
+    display: block; font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--ink-soft); margin-bottom: 6px;
+  }
+  .field input[type=text], .field input[type=date], .field input[type=url],
+  .field select, .field textarea {
+    width: 100%; border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+    padding: 10px 12px; border-radius: 8px; font-family: var(--font-body); font-size: 0.9rem;
+  }
+  .field textarea { min-height: 90px; resize: vertical; }
+  .field input[type=file] { font-size: 0.82rem; color: var(--ink-soft); }
+  .or-divider { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-soft); margin: 8px 0; }
+  .form-actions { margin-top: 22px; display: flex; gap: 12px; }
+  .btn-primary {
+    background: var(--green); color: var(--bg-soft); border: none; font-weight: 600;
+    padding: 11px 22px; border-radius: 8px; cursor: pointer; font-family: var(--font-mono); font-size: 0.85rem;
+  }
+  .btn-primary:hover { background: var(--green-deep); }
+  .btn-ghost {
+    background: transparent; border: 1px solid var(--line); color: var(--ink-soft);
+    padding: 11px 22px; border-radius: 8px; cursor: pointer; font-family: var(--font-mono); font-size: 0.85rem;
+  }
 
-        button[type="submit"]:hover { opacity: 0.8; }
+  footer.site {
+    border-top: 1px solid var(--line); padding: 28px 0 50px;
+    font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft);
+    text-align: center;
+  }
 
-        input[type="file"] {
-            padding: 0.6rem;
-            cursor: pointer;
-        }
-
-        /* Section & Grid Styles */
-        .section-container { margin-bottom: 4rem; }
-        
-        .log-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .nature-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .nature-grid { grid-template-columns: repeat(2, 1fr); }
-            .log-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (min-width: 1200px) {
-            .nature-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-
-        /* Log Card Styles */
-        .log-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 1.5rem; 
-            box-shadow: var(--shadow);
-            transition: background-color 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .log-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .log-header h3 {
-            font-size: 1.2rem;
-            line-height: 1.3;
-            margin-bottom: 0.2rem;
-        }
-
-        .log-meta {
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
-
-        /* Clickable Tags and Badges */
-        .tag {
-            display: inline-block;
-            background: var(--tag-bg);
-            color: var(--tag-text);
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            margin-right: 0.3rem;
-            margin-top: 0.3rem;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
-        }
-        
-        .tag:hover {
-            opacity: 0.7;
-            transform: translateY(-1px);
-        }
-
-        .subcategory-badge {
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            font-weight: 600;
-            color: #ffffff;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
-        }
-
-        .subcategory-badge:hover {
-            opacity: 0.8;
-            transform: translateY(-1px);
-        }
-
-        .bg-nature { background-color: var(--accent-nature); }
-        .bg-me { background-color: var(--accent-me); }
-
-        .log-content { 
-            margin-bottom: 1.5rem;
-            flex-grow: 1; 
-        }
-        
-        .log-content p {
-            font-size: 0.95rem;
-            margin-bottom: 0.8rem;
-        }
-        
-        .log-image {
-            width: 100%;
-            height: 220px; 
-            object-fit: cover; 
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        /* Comments Section */
-        .comments-section {
-            margin-top: auto;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .comments-section h4 {
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .comment-list {
-            list-style: none;
-            margin-bottom: 1rem;
-            max-height: 150px;
-            overflow-y: auto;
-        }
-
-        .comment-item {
-            background: var(--comment-bg);
-            padding: 0.6rem 0.8rem;
-            border-radius: 6px;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            transition: background-color 0.3s;
-        }
-
-        .comment-form { display: flex; gap: 0.5rem; }
-        .comment-form input { flex: 1; padding: 0.5rem; font-size: 0.85rem; }
-        .comment-form button { width: auto; padding: 0.5rem 1rem; font-size: 0.85rem;}
-    </style>
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
 </head>
 <body>
 
-    <header>
-        <button id="adminBtn" class="admin-btn">🔒 Admin</button>
-        <button id="themeToggle" class="theme-toggle">🌙 Dark Mode</button>
-        <h1>Lens & Life</h1>
-        <p style="color: var(--text-light); margin-top: 0.5rem;">Documenting my journey through nature and self</p>
-    </header>
-
-    <div class="container">
-        
-        <!-- Filter Banner -->
-        <div id="filterBanner" class="filter-banner">
-            <span id="filterText">Showing logs for: </span>
-            <button class="clear-filter-btn" onclick="clearFilters()">Clear Filter</button>
-        </div>
-
-        <!-- Add New Log Section (Hidden) -->
-        <section class="log-form-container" id="logFormSection">
-            <h2>
-                Create New Log
-                <button class="close-form-btn" id="closeFormBtn" title="Close Form">&times;</button>
-            </h2>
-            <form id="addLogForm">
-                <div class="form-row">
-                    <input type="text" id="logTitle" placeholder="Title of your log..." required>
-                    <input type="date" id="logDate" required>
-                </div>
-                <div class="form-row">
-                    <select id="mainCategory" onchange="updateSubcategories()" required>
-                        <option value="" disabled selected>Select Category</option>
-                        <option value="nature">Nature</option>
-                        <option value="me">Me</option>
-                    </select>
-                    <select id="subCategory" required>
-                        <option value="" disabled selected>Select Subcategory first...</option>
-                    </select>
-                </div>
-                <div class="form-row">
-                    <input type="file" id="logImageFile" accept="image/*" title="Upload an image from your device">
-                    <input type="url" id="logImageUrl" placeholder="Or paste an image URL here...">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="logTags" placeholder="Tags (comma separated, e.g., macro, sunset, autumn)">
-                </div>
-                <div class="form-row">
-                    <textarea id="logBody" placeholder="Write your thoughts here..." required></textarea>
-                </div>
-                <button type="submit">Publish Log</button>
-            </form>
-        </section>
-
-        <!-- Nature Section (4 Column Grid) -->
-        <section class="section-container" id="nature-section">
-            <h2 class="nature-title">Nature</h2>
-            <p style="margin-bottom: 1.5rem; color: var(--text-light);">Plants, Animals, and Locations.</p>
-            <div class="nature-grid" id="nature-feed">
-                <!-- Example Nature Post 1 -->
-                <article class="log-card">
-                    <div class="log-header">
-                        <div>
-                            <h3>Morning Frost</h3>
-                            <div class="log-meta">2026-08-09</div>
-                        </div>
-                        <span class="subcategory-badge bg-nature" onclick="applyFilter('category', 'Plants')">Plants</span>
-                    </div>
-                    <div class="log-content">
-                        <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=800&q=80" alt="Morning Frost" class="log-image">
-                        <p>The light caught the frost perfectly this morning. The woods were entirely silent.</p>
-                        <span class="tag" onclick="applyFilter('tag', '#frost')">#frost</span> 
-                        <span class="tag" onclick="applyFilter('tag', '#morning')">#morning</span>
-                    </div>
-                    <div class="comments-section">
-                        <h4>Comments</h4>
-                        <ul class="comment-list">
-                            <li class="comment-item">Beautiful lighting!</li>
-                        </ul>
-                        <form class="comment-form" onsubmit="addComment(event, this)">
-                            <input type="text" placeholder="Add a comment..." required>
-                            <button type="submit">Post</button>
-                        </form>
-                    </div>
-                </article>
-                
-                <!-- Example Nature Post 2 -->
-                <article class="log-card">
-                    <div class="log-header">
-                        <div>
-                            <h3>Hidden Creek</h3>
-                            <div class="log-meta">2026-08-05</div>
-                        </div>
-                        <span class="subcategory-badge bg-nature" onclick="applyFilter('category', 'Locations')">Locations</span>
-                    </div>
-                    <div class="log-content">
-                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80" alt="Hidden Creek" class="log-image">
-                        <p>Found this hidden spot while hiking off the main trail. The water was crystal clear.</p>
-                        <span class="tag" onclick="applyFilter('tag', '#hiking')">#hiking</span> 
-                        <span class="tag" onclick="applyFilter('tag', '#creek')">#creek</span>
-                    </div>
-                    <div class="comments-section">
-                        <h4>Comments</h4>
-                        <ul class="comment-list"></ul>
-                        <form class="comment-form" onsubmit="addComment(event, this)">
-                            <input type="text" placeholder="Add a comment..." required>
-                            <button type="submit">Post</button>
-                        </form>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- Me Section (Wider Column Grid) -->
-        <section class="section-container" id="me-section">
-            <h2 class="me-title">Me</h2>
-            <p style="margin-bottom: 1.5rem; color: var(--text-light); max-width: 1000px; margin-left: auto; margin-right: auto;">University, Films, Music, and Video Games.</p>
-            <div class="log-grid" id="me-feed">
-                 <!-- Example Me Post -->
-                 <article class="log-card">
-                    <div class="log-header">
-                        <div>
-                            <h3>Late Night Study Sessions</h3>
-                            <div class="log-meta">Logged on: 2026-08-08</div>
-                        </div>
-                        <span class="subcategory-badge bg-me" onclick="applyFilter('category', 'University')">University</span>
-                    </div>
-                    <div class="log-content">
-                        <p>Preparing for the upcoming semester. Sometimes the campus is beautiful when it's entirely empty at night. Brought my camera along just in case, but mostly spent time organizing my notes.</p>
-                        <span class="tag" onclick="applyFilter('tag', '#studying')">#studying</span> 
-                        <span class="tag" onclick="applyFilter('tag', '#campuslife')">#campuslife</span>
-                    </div>
-                    <div class="comments-section">
-                        <h4>Comments</h4>
-                        <ul class="comment-list"></ul>
-                        <form class="comment-form" onsubmit="addComment(event, this)">
-                            <input type="text" placeholder="Write a comment..." required>
-                            <button type="submit">Post</button>
-                        </form>
-                    </div>
-                </article>
-            </div>
-        </section>
+<header class="site">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <span class="mark">Field &amp; <em>Self</em></span>
+      <span class="sub">a photo journal</span>
     </div>
+    <nav class="section-nav">
+      <a href="#nature" class="nature-link">Nature</a>
+      <a href="#me" class="me-link">Me</a>
+    </nav>
+    <div class="header-actions">
+      <button class="pill" id="themeToggle" aria-label="Toggle dark mode">🌒 Theme</button>
+      <button class="pill" id="adminToggle">🔒 Admin</button>
+    </div>
+  </div>
+</header>
 
-    <script>
-        // --- Filtering Logic ---
-        function applyFilter(type, value) {
-            const allCards = document.querySelectorAll('.log-card');
-            const banner = document.getElementById('filterBanner');
-            const filterText = document.getElementById('filterText');
+<div id="filterBanner">
+  <div class="wrap">
+    <span>Showing logs for: <strong id="filterLabel"></strong></span>
+    <button id="clearFilter">Clear Filter</button>
+  </div>
+</div>
 
-            allCards.forEach(card => {
-                let showCard = false;
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Notebook &amp; camera roll</div>
+    <h1>Field notes on the world <em>outside</em>, and the one inside my head.</h1>
+    <p class="lede">A running log of plants, animals, and places I've stopped to look at twice — alongside the university years, films, records, and games that shaped the rest of it.</p>
+  </div>
+</div>
 
-                if (type === 'tag') {
-                    const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.textContent.trim());
-                    if (tags.includes(value)) showCard = true;
-                } else if (type === 'category') {
-                    const badge = card.querySelector('.subcategory-badge');
-                    if (badge && badge.textContent.trim() === value) showCard = true;
-                }
+<main class="wrap">
 
-                card.style.display = showCard ? 'flex' : 'none';
-            });
+  <section id="nature" class="log-section">
+    <div class="section-head">
+      <h2>Nature</h2>
+      <span class="tag-count">Plants · Animals · Locations</span>
+    </div>
+    <div class="subnav">
+      <button class="badge nature" data-filter-type="subcategory" data-filter-value="Plants">Plants</button>
+      <button class="badge nature" data-filter-type="subcategory" data-filter-value="Animals">Animals</button>
+      <button class="badge nature" data-filter-type="subcategory" data-filter-value="Locations">Locations</button>
+    </div>
+    <div id="natureGrid"></div>
+  </section>
 
-            filterText.textContent = `Showing logs for ${type}: ${value}`;
-            banner.style.display = 'flex';
+  <section id="me" class="log-section">
+    <div class="section-head">
+      <h2>Me</h2>
+      <span class="tag-count">University · Films · Music · Video games</span>
+    </div>
+    <div class="subnav">
+      <button class="badge me" data-filter-type="subcategory" data-filter-value="University">University</button>
+      <button class="badge me" data-filter-type="subcategory" data-filter-value="Films">Films</button>
+      <button class="badge me" data-filter-type="subcategory" data-filter-value="Music">Music</button>
+      <button class="badge me" data-filter-type="subcategory" data-filter-value="Video games">Video games</button>
+    </div>
+    <div id="meGrid"></div>
+  </section>
+
+  <section id="adminPanel">
+    <h2>Publish a new log</h2>
+    <p class="hint">This form only appears after entering the admin password. Everything here is stored in memory for this session only.</p>
+    <form id="logForm">
+      <div class="form-grid">
+        <div class="field full">
+          <label for="f-title">Title</label>
+          <input type="text" id="f-title" required placeholder="e.g. Lichen on the north ridge">
+        </div>
+        <div class="field">
+          <label for="f-date">Date logged</label>
+          <input type="date" id="f-date" required>
+        </div>
+        <div class="field">
+          <label for="f-category">Main category</label>
+          <select id="f-category">
+            <option value="Nature">Nature</option>
+            <option value="Me">Me</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="f-subcategory">Subcategory</label>
+          <select id="f-subcategory"></select>
+        </div>
+        <div class="field">
+          <label for="f-file">Image — upload a file</label>
+          <input type="file" id="f-file" accept="image/*">
+        </div>
+        <div class="field">
+          <label for="f-url">Image — or paste a URL</label>
+          <input type="url" id="f-url" placeholder="https://...">
+        </div>
+        <div class="field full">
+          <label for="f-tags">Tags (comma-separated)</label>
+          <input type="text" id="f-tags" placeholder="e.g. moss, macro, oregon">
+        </div>
+        <div class="field full">
+          <label for="f-body">Log entry</label>
+          <textarea id="f-body" placeholder="What did you notice?"></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Publish log</button>
+        <button type="button" class="btn-ghost" id="cancelAdmin">Cancel</button>
+      </div>
+    </form>
+  </section>
+
+</main>
+
+<footer class="site">
+  Kept by hand, one entry at a time. — logged locally, no server required.
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------------- Theme ---------------- */
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('fs-theme');
+  if (savedTheme === 'dark') document.body.classList.add('dark');
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('fs-theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  });
+
+  /* ---------------- Data ---------------- */
+  const SUBCATS = {
+    Nature: ['Plants', 'Animals', 'Locations'],
+    Me: ['University', 'Films', 'Music', 'Video games']
+  };
+
+  let uid = 0;
+  const nextId = () => 'log-' + (++uid);
+
+  const seedLogs = [
+    { category: 'Nature', subcategory: 'Plants', title: 'Lichen on the north ridge', date: '2026-07-02',
+      img: 'https://picsum.photos/seed/lichen1/640/440',
+      body: 'Found this pale-gold lichen crusting a granite outcrop after the rain finally let up. Slow-growing, stubborn, patient — the whole colony might be older than the trail itself.',
+      tags: ['lichen', 'macro', 'ridge-trail'] },
+    { category: 'Nature', subcategory: 'Animals', title: 'A heron holding still', date: '2026-06-28',
+      img: 'https://picsum.photos/seed/heron1/640/440',
+      body: 'Stood at the edge of the marsh for twenty minutes waiting for it to move. It never did. Eventually I gave up and it caught a fish the second I turned around.',
+      tags: ['heron', 'marsh', 'patience'] },
+    { category: 'Nature', subcategory: 'Locations', title: 'The switchback overlook', date: '2026-06-15',
+      img: 'https://picsum.photos/seed/overlook1/640/440',
+      body: 'Third time up this trail and the light finally cooperated. Fog pooling in the valley below like it was poured there.',
+      tags: ['overlook', 'fog', 'ridge-trail'] },
+    { category: 'Nature', subcategory: 'Plants', title: 'First frost on the ferns', date: '2026-05-30',
+      img: 'https://picsum.photos/seed/fern1/640/440',
+      body: 'Every frond edged in white this morning. Gone by ten, but worth the cold walk.',
+      tags: ['ferns', 'frost', 'macro'] },
+    { category: 'Nature', subcategory: 'Animals', title: 'Fox at the tree line', date: '2026-05-18',
+      img: 'https://picsum.photos/seed/fox1/640/440',
+      body: 'Caught it mid-stride, ears forward, completely unbothered by the shutter click.',
+      tags: ['fox', 'tree-line', 'dusk'] },
+    { category: 'Nature', subcategory: 'Locations', title: 'Tide pools at low water', date: '2026-05-02',
+      img: 'https://picsum.photos/seed/tidepool1/640/440',
+      body: 'Anemones, hermit crabs, one very indignant sculpin. Twenty minutes before the tide turned and I had to wade back.',
+      tags: ['tide-pools', 'coast', 'macro'] },
+    { category: 'Me', subcategory: 'University', title: 'Finished the thesis draft', date: '2026-07-10',
+      img: 'https://picsum.photos/seed/uni1/640/440',
+      body: "Three years of fieldwork condensed into ninety pages. My advisor's notes are already longer than the chapter. Onward.",
+      tags: ['thesis', 'fieldwork', 'milestone'] },
+    { category: 'Me', subcategory: 'Films', title: 'Rewatched a favorite on 35mm', date: '2026-06-20',
+      img: 'https://picsum.photos/seed/film1/640/440',
+      body: 'The revival house downtown ran a print with a scratch right through the third act, and somehow that made it better.',
+      tags: ['35mm', 'revival-house', 'favorites'] },
+    { category: 'Me', subcategory: 'Music', title: 'New record on repeat', date: '2026-06-08',
+      img: 'https://picsum.photos/seed/music1/640/440',
+      body: 'Been listening to this one on every hike since it came out. Slow build, patient arrangement — matches the trail pace.',
+      tags: ['new-release', 'hiking-playlist'] },
+    { category: 'Me', subcategory: 'Video games', title: 'A slow, quiet playthrough', date: '2026-05-25',
+      img: 'https://picsum.photos/seed/vg1/640/440',
+      body: 'Picked up a game about walking through a forest and, unsurprisingly, loved it more than I expected to.',
+      tags: ['cozy-games', 'forest'] }
+  ];
+
+  /* ---------------- Filter state ---------------- */
+  let activeFilter = null; // { type: 'subcategory'|'tag', value: string }
+
+  const filterBanner = document.getElementById('filterBanner');
+  const filterLabel = document.getElementById('filterLabel');
+
+  function applyFilter() {
+    document.querySelectorAll('.card').forEach(card => {
+      let show = true;
+      if (activeFilter) {
+        if (activeFilter.type === 'subcategory') {
+          show = card.dataset.subcategory === activeFilter.value;
+        } else if (activeFilter.type === 'tag') {
+          show = (card.dataset.tags || '').split('|').includes(activeFilter.value);
         }
+      }
+      card.style.display = show ? '' : 'none';
+    });
+    if (activeFilter) {
+      filterBanner.style.display = 'block';
+      filterLabel.textContent = activeFilter.value;
+    } else {
+      filterBanner.style.display = 'none';
+    }
+  }
 
-        function clearFilters() {
-            const allCards = document.querySelectorAll('.log-card');
-            allCards.forEach(card => card.style.display = 'flex');
-            document.getElementById('filterBanner').style.display = 'none';
-        }
+  document.getElementById('clearFilter').addEventListener('click', () => {
+    activeFilter = null;
+    applyFilter();
+  });
 
+  /* ---------------- Card rendering ---------------- */
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
 
-        // --- Admin Password Logic ---
-        const ADMIN_PASSWORD = 'photolog'; 
-        
-        const adminBtn = document.getElementById('adminBtn');
-        const logFormSection = document.getElementById('logFormSection');
-        const closeFormBtn = document.getElementById('closeFormBtn');
+  function formatDate(iso) {
+    try {
+      const d = new Date(iso + 'T00:00:00');
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    } catch (e) { return iso; }
+  }
 
-        adminBtn.addEventListener('click', () => {
-            if (logFormSection.style.display === 'block') {
-                logFormSection.style.display = 'none';
-            } else {
-                const pass = prompt('Enter admin password to create a new log:');
-                if (pass === ADMIN_PASSWORD) {
-                    logFormSection.style.display = 'block';
-                } else if (pass !== null) {
-                    alert('Incorrect password!');
-                }
-            }
-        });
+  function buildCard(log) {
+    const id = nextId();
+    const badgeClass = log.category === 'Nature' ? 'nature' : 'me';
+    const tagsHtml = log.tags.map(t =>
+      `<button class="tag" data-filter-type="tag" data-filter-value="${escapeHtml(t)}">#${escapeHtml(t)}</button>`
+    ).join('');
 
-        closeFormBtn.addEventListener('click', () => {
-            logFormSection.style.display = 'none';
-        });
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.dataset.category = log.category;
+    card.dataset.subcategory = log.subcategory;
+    card.dataset.tags = log.tags.join('|');
+    card.id = id;
 
-        // --- Theme Toggling Logic ---
-        const themeToggleBtn = document.getElementById('themeToggle');
-        
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            themeToggleBtn.textContent = '☀️ Light Mode';
-        }
+    card.innerHTML = `
+      <img class="thumb" src="${escapeHtml(log.img)}" alt="${escapeHtml(log.title)}" loading="lazy">
+      <div class="card-body">
+        <div class="meta-row">
+          <button class="badge ${badgeClass}" data-filter-type="subcategory" data-filter-value="${escapeHtml(log.subcategory)}">${escapeHtml(log.subcategory)}</button>
+          <span class="date">${formatDate(log.date)}</span>
+        </div>
+        <h3>${escapeHtml(log.title)}</h3>
+        <p class="body-text">${escapeHtml(log.body)}</p>
+        <div class="tags">${tagsHtml}</div>
+        <div class="comments">
+          <span class="comments-label">Comments</span>
+          <ul class="comments-list"></ul>
+          <div class="comment-form">
+            <input type="text" placeholder="Add a comment…" aria-label="Add a comment">
+            <button type="button">Post</button>
+          </div>
+        </div>
+      </div>
+    `;
+    return card;
+  }
 
-        themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            
-            if (currentTheme === 'dark') {
-                document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-                themeToggleBtn.textContent = '🌙 Dark Mode';
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-                themeToggleBtn.textContent = '☀️ Light Mode';
-            }
-        });
+  const natureGrid = document.getElementById('natureGrid');
+  const meGrid = document.getElementById('meGrid');
 
-        // --- Log Creation Logic ---
-        document.getElementById('logDate').valueAsDate = new Date();
+  function prependLog(log) {
+    const card = buildCard(log);
+    const target = log.category === 'Nature' ? natureGrid : meGrid;
+    target.prepend(card);
+  }
 
-        const subcategories = {
-            nature: ["Plants", "Animals", "Locations"],
-            me: ["University", "Films", "Music", "Video Games"]
-        };
+  function appendLog(log) {
+    const card = buildCard(log);
+    const target = log.category === 'Nature' ? natureGrid : meGrid;
+    target.appendChild(card);
+  }
 
-        function updateSubcategories() {
-            const mainCat = document.getElementById('mainCategory').value;
-            const subCatSelect = document.getElementById('subCategory');
-            
-            subCatSelect.innerHTML = '';
-            
-            if (subcategories[mainCat]) {
-                subcategories[mainCat].forEach(sub => {
-                    const option = document.createElement('option');
-                    option.value = sub;
-                    option.textContent = sub;
-                    subCatSelect.appendChild(option);
-                });
-            }
-        }
+  seedLogs.forEach(appendLog);
 
-        document.getElementById('addLogForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+  /* ---------------- Event delegation: badges/tags + comments ---------------- */
+  document.addEventListener('click', (e) => {
+    const filterEl = e.target.closest('[data-filter-type]');
+    if (filterEl) {
+      activeFilter = { type: filterEl.dataset.filterType, value: filterEl.dataset.filterValue };
+      applyFilter();
+      filterBanner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
 
-            // Collect text inputs
-            const title = document.getElementById('logTitle').value;
-            const date = document.getElementById('logDate').value;
-            const mainCat = document.getElementById('mainCategory').value;
-            const subCat = document.getElementById('subCategory').value;
-            const rawTags = document.getElementById('logTags').value;
-            const body = document.getElementById('logBody').value;
+    const commentBtn = e.target.closest('.comment-form button');
+    if (commentBtn) {
+      const form = commentBtn.closest('.comment-form');
+      const input = form.querySelector('input');
+      const text = input.value.trim();
+      if (!text) return;
+      const list = form.previousElementSibling; // .comments-list
+      const li = document.createElement('li');
+      li.textContent = text;
+      list.appendChild(li);
+      list.scrollTop = list.scrollHeight;
+      input.value = '';
+      return;
+    }
+  });
 
-            // Collect Image Inputs
-            const imageFile = document.getElementById('logImageFile').files[0];
-            const imageUrl = document.getElementById('logImageUrl').value;
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.matches('.comment-form input')) {
+      e.preventDefault();
+      e.target.nextElementSibling.click();
+    }
+  });
 
-            // Process Tags for new log
-            let tagsHtml = '';
-            if(rawTags.trim() !== '') {
-                const tagsArray = rawTags.split(',').map(tag => tag.trim());
-                tagsArray.forEach(tag => {
-                    if(tag) tagsHtml += `<span class="tag" onclick="applyFilter('tag', '#${tag}')">#${tag}</span> `;
-                });
-            }
+  /* ---------------- Admin mode ---------------- */
+  const ADMIN_PASSWORD = 'photolog';
+  const adminToggle = document.getElementById('adminToggle');
+  const adminPanel = document.getElementById('adminPanel');
+  const catSelect = document.getElementById('f-category');
+  const subcatSelect = document.getElementById('f-subcategory');
+  const dateInput = document.getElementById('f-date');
 
-            // Function to construct and place the HTML
-            const buildAndPlaceLog = (imgSource) => {
-                const badgeClass = mainCat === 'nature' ? 'bg-nature' : 'bg-me';
-                
-                let imageHtml = '';
-                if (imgSource) {
-                    imageHtml = `<img src="${imgSource}" alt="Log Image" class="log-image">`;
-                }
+  function populateSubcats() {
+    const cat = catSelect.value;
+    subcatSelect.innerHTML = SUBCATS[cat].map(s => `<option value="${s}">${s}</option>`).join('');
+  }
+  catSelect.addEventListener('change', populateSubcats);
+  populateSubcats();
 
-                const article = document.createElement('article');
-                article.className = 'log-card';
-                article.innerHTML = `
-                    <div class="log-header">
-                        <div>
-                            <h3>${title}</h3>
-                            <div class="log-meta">${date}</div>
-                        </div>
-                        <span class="subcategory-badge ${badgeClass}" onclick="applyFilter('category', '${subCat}')">${subCat}</span>
-                    </div>
-                    <div class="log-content">
-                        ${imageHtml}
-                        <p>${body.replace(/\n/g, '<br>')}</p>
-                        ${tagsHtml}
-                    </div>
-                    <div class="comments-section">
-                        <h4>Comments</h4>
-                        <ul class="comment-list"></ul>
-                        <form class="comment-form" onsubmit="addComment(event, this)">
-                            <input type="text" placeholder="Add a comment..." required>
-                            <button type="submit">Post</button>
-                        </form>
-                    </div>
-                `;
+  function todayISO() {
+    const d = new Date();
+    return d.toISOString().slice(0, 10);
+  }
+  dateInput.value = todayISO();
 
-                const targetFeed = document.getElementById(`${mainCat}-feed`);
-                targetFeed.insertBefore(article, targetFeed.firstChild); 
+  adminToggle.addEventListener('click', () => {
+    if (adminPanel.style.display === 'block') {
+      adminPanel.style.display = 'none';
+      return;
+    }
+    const pw = prompt('Enter admin password to publish a log:');
+    if (pw === null) return;
+    if (pw === ADMIN_PASSWORD) {
+      adminPanel.style.display = 'block';
+      adminPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      alert('Incorrect password.');
+    }
+  });
 
-                // Reset form
-                document.getElementById('addLogForm').reset();
-                document.getElementById('subCategory').innerHTML = '<option value="" disabled selected>Select Subcategory first...</option>';
-                document.getElementById('logDate').valueAsDate = new Date();
-                logFormSection.style.display = 'none';
-            };
+  document.getElementById('cancelAdmin').addEventListener('click', () => {
+    adminPanel.style.display = 'none';
+  });
 
-            // Handle the image
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    buildAndPlaceLog(event.target.result);
-                };
-                reader.readAsDataURL(imageFile);
-            } else if (imageUrl) {
-                buildAndPlaceLog(imageUrl);
-            } else {
-                buildAndPlaceLog('');
-            }
-        });
+  const logForm = document.getElementById('logForm');
+  const fileInput = document.getElementById('f-file');
+  const urlInput = document.getElementById('f-url');
 
-        // --- Comments Logic ---
-        function addComment(event, formElement) {
-            event.preventDefault();
-            const input = formElement.querySelector('input');
-            const commentText = input.value;
-            
-            if (commentText.trim() !== '') {
-                const commentList = formElement.previousElementSibling;
-                const newComment = document.createElement('li');
-                newComment.className = 'comment-item';
-                newComment.textContent = commentText;
-                
-                commentList.appendChild(newComment);
-                input.value = '';
-                
-                // Auto-scroll to the newest comment
-                commentList.scrollTop = commentList.scrollHeight;
-            }
-        }
-    </script>
+  logForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById('f-title').value.trim();
+    const date = dateInput.value || todayISO();
+    const category = catSelect.value;
+    const subcategory = subcatSelect.value;
+    const tags = document.getElementById('f-tags').value
+      .split(',').map(t => t.trim()).filter(Boolean);
+    const body = document.getElementById('f-body').value.trim();
+
+    function publish(imgSrc) {
+      const log = {
+        category, subcategory, title, date,
+        img: imgSrc || 'https://picsum.photos/seed/' + encodeURIComponent(title || Date.now()) + '/640/440',
+        body, tags
+      };
+      prependLog(log);
+      logForm.reset();
+      dateInput.value = todayISO();
+      populateSubcats();
+      adminPanel.style.display = 'none';
+      applyFilter();
+      document.getElementById(category === 'Nature' ? 'nature' : 'me')
+        .scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (ev) => publish(ev.target.result);
+      reader.readAsDataURL(fileInput.files[0]);
+    } else if (urlInput.value.trim()) {
+      publish(urlInput.value.trim());
+    } else {
+      publish(null);
+    }
+  });
+
+})();
+</script>
+
 </body>
 </html>
