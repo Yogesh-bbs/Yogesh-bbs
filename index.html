@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photographs — a photo &amp; culture journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Newsreader:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F2EEE4;
+    --bg-raised: #E8E2D3;
+    --ink: #1C1B19;
+    --ink-soft: #55524A;
+    --line: rgba(28,27,25,0.16);
+    --accent: #C1443D;
+    --accent-ink: #ffffff;
+    --teal: #4C6B63;
+    --sprocket: rgba(28,27,25,0.28);
+    --shadow: rgba(28,27,25,0.14);
+    --radius: 2px;
+  }
+  html.dark{
+    --bg: #17161B;
+    --bg-raised: #1F1E24;
+    --ink: #ECE7DC;
+    --ink-soft: #A9A399;
+    --line: rgba(236,231,220,0.14);
+    --accent: #FF6A5C;
+    --accent-ink: #17161B;
+    --teal: #7FB3A6;
+    --sprocket: rgba(236,231,220,0.22);
+    --shadow: rgba(0,0,0,0.45);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Newsreader', serif;
+    transition:background .35s ease, color .35s ease;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- header ---------- */
+  header.top{
+    border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter:blur(6px);
+  }
+  .top-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    max-width:1040px; margin:0 auto;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:10px;
+    font-family:'Fraunces', serif; font-weight:700; font-size:1.35rem;
+    letter-spacing:-0.01em;
+  }
+  .brand .roll{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.62rem; font-weight:500;
+    color:var(--ink-soft);
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    border:1px solid var(--line);
+    padding:3px 7px;
+    border-radius:var(--radius);
+  }
+  .toggle-btn{
+    display:flex; align-items:center; justify-content:center;
+    width:38px; height:38px;
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    color:var(--ink);
+    padding:0;
+    border-radius:50%;
+    cursor:pointer;
+    transition:background .2s ease, transform .15s ease, border-color .2s ease;
+  }
+  .toggle-btn:hover{transform:translateY(-1px); border-color:var(--accent);}
+  .toggle-btn:focus-visible, button:focus-visible, .chip:focus-visible, .frame:focus-visible, .entry:focus-visible, .modal-close:focus-visible{
+    outline:2px solid var(--accent); outline-offset:2px;
+  }
+  .toggle-btn svg{
+    width:18px; height:18px;
+    stroke:var(--accent);
+    fill:none;
+    stroke-width:1.8;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .toggle-btn .icon-sun{display:none;}
+  .toggle-btn .icon-moon{display:block;}
+  html.dark .toggle-btn .icon-sun{display:block;}
+  html.dark .toggle-btn .icon-moon{display:none;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:64px 0 40px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 14px;
+  }
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(2.2rem, 5vw, 3.6rem);
+    line-height:1.05;
+    letter-spacing:-0.02em;
+    margin:0 0 18px;
+    max-width:16ch;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--teal);
+  }
+  .hero p{
+    max-width:52ch;
+    font-size:1.08rem;
+    color:var(--ink-soft);
+    line-height:1.6;
+    margin:0;
+  }
+
+  /* ---------- filter bar ---------- */
+  .filterbar{
+    position:sticky; top:65px; z-index:40;
+    background:color-mix(in srgb, var(--bg) 94%, transparent);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:16px 0;
+  }
+  .filterbar-inner{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .search-wrap{
+    display:flex; align-items:center; gap:8px;
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:7px 13px;
+    flex:1 1 220px;
+    max-width:280px;
+    margin-right:6px;
+  }
+  .search-wrap svg{
+    width:14px; height:14px;
+    stroke:var(--ink-soft);
+    fill:none;
+    stroke-width:1.8;
+    stroke-linecap:round;
+    flex-shrink:0;
+  }
+  .search-wrap input{
+    border:none; outline:none; background:transparent;
+    color:var(--ink);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    width:100%;
+  }
+  .search-wrap input::placeholder{color:var(--ink-soft);}
+  .search-wrap:focus-within{border-color:var(--accent);}
+  .filter-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--ink-soft);
+    margin-right:4px;
+  }
+  .chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.03em;
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    padding:7px 13px;
+    border-radius:20px;
+    cursor:pointer;
+    transition:all .18s ease;
+    white-space:nowrap;
+  }
+  .chip:hover{border-color:var(--accent); color:var(--ink);}
+  .chip.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:var(--accent-ink);
+    font-weight:600;
+  }
+  .chip.clear{margin-left:auto; opacity:0.75;}
+  .chip.clear:hover{opacity:1;}
+
+  /* ---------- section headers ---------- */
+  .section{padding:52px 0;}
+  .section + .section{border-top:1px solid var(--line);}
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:28px; gap:16px; flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.7rem;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .section-head .count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    letter-spacing:0.06em;
+  }
+  .empty-note{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    padding:20px 0;
+  }
+
+  /* ---------- contact sheet (photos) ---------- */
+  .filmstrip{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:22px 18px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(190px, 1fr));
+    gap:18px;
+    position:relative;
+  }
+  .frame{
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+    text-align:left;
+  }
+  .frame:hover{transform:translateY(-3px); box-shadow:0 10px 24px var(--shadow);}
+  .frame-img{
+    aspect-ratio:4/5;
+    background:linear-gradient(150deg, var(--fc1), var(--fc2));
+    position:relative;
+  }
+  .frame-num{
+    position:absolute; top:8px; left:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.62rem;
+    color:rgba(255,255,255,0.85);
+    background:rgba(0,0,0,0.35);
+    padding:2px 6px;
+    border-radius:2px;
+    letter-spacing:0.05em;
+  }
+  .frame-meta{padding:11px 12px 13px;}
+  .frame-meta .ftitle{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:0.98rem;
+    margin:0 0 4px;
+  }
+  .frame-meta .ftags{
+    display:flex; flex-wrap:wrap; gap:6px;
+    margin-top:2px;
+  }
+  .frame-meta .fdesc{
+    font-family:'Newsreader', serif;
+    font-size:0.84rem;
+    color:var(--ink-soft);
+    line-height:1.45;
+    margin:6px 0 8px;
+  }
+  .frame-meta .floc{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.62rem;
+    color:var(--teal);
+    letter-spacing:0.04em;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    margin:0 0 6px;
+  }
+  .frame-meta .floc svg{
+    width:10px; height:10px;
+    stroke:var(--teal);
+    fill:none;
+    stroke-width:2;
+    flex-shrink:0;
+  }
+
+  /* ---------- journal entries ---------- */
+  .entries{display:flex; flex-direction:column; gap:1px; background:var(--line);}
+  .entry{
+    background:var(--bg);
+    padding:26px 24px;
+    display:grid;
+    grid-template-columns:110px 1fr;
+    gap:22px;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .entry:hover{background:var(--bg-raised);}
+  .entry-meta{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--ink-soft); line-height:1.6;}
+  .entry-meta .kind{
+    display:inline-block;
+    color:var(--teal);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:6px;
+  }
+  .entry h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:1.32rem;
+    margin:0 0 10px;
+    letter-spacing:-0.01em;
+  }
+  .entry p{
+    margin:0 0 14px;
+    color:var(--ink-soft);
+    line-height:1.68;
+    font-size:1rem;
+    max-width:62ch;
+  }
+  .entry-tags{display:flex; flex-wrap:wrap; gap:7px;}
+  .tag-stamp{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.64rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    padding:4px 9px;
+    border-radius:20px;
+    background:var(--bg-raised);
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .tag-stamp:hover{border-color:var(--accent); color:var(--ink);}
+
+  @media (max-width:640px){
+    .entry{grid-template-columns:1fr; gap:8px;}
+    .top-inner{padding:14px 18px;}
+    .hero{padding:44px 0 30px;}
+    .wrap{padding:0 18px;}
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:30px 0 50px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+
+  /* ---------- contact ---------- */
+  #contact-section{
+    background:var(--bg-raised);
+  }
+  .contact-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:24px; flex-wrap:wrap;
+  }
+  .contact-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 8px;
+  }
+  .contact-h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:1.9rem;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .contact-chip{
+    display:flex; align-items:center; gap:10px;
+    background:var(--bg);
+    border:1px solid var(--line);
+    color:var(--ink);
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:30px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    letter-spacing:0.02em;
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  .contact-chip:hover{border-color:var(--accent); transform:translateY(-2px);}
+  .contact-chip svg{width:20px; height:20px; color:var(--accent); flex-shrink:0;}
+
+  @media (max-width:640px){
+    .contact-inner{flex-direction:column; align-items:flex-start;}
+  }
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    display:none;
+    position:fixed; inset:0; z-index:100;
+    background:color-mix(in srgb, var(--ink) 55%, transparent);
+    align-items:flex-start; justify-content:center;
+    padding:64px 20px;
+    overflow-y:auto;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-card{
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:8px;
+    max-width:560px;
+    width:100%;
+    box-shadow:0 24px 60px rgba(0,0,0,0.35);
+    position:relative;
+    animation:modalIn .22s ease;
+  }
+  @keyframes modalIn{
+    from{opacity:0; transform:translateY(8px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .modal-close{
+    position:absolute; top:14px; right:14px;
+    width:32px; height:32px;
+    border-radius:50%;
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    color:var(--ink);
+    font-size:1.1rem;
+    line-height:1;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    z-index:2;
+  }
+  .modal-close:hover{border-color:var(--accent);}
+  .modal-img{
+    aspect-ratio:4/3;
+    border-radius:8px 8px 0 0;
+  }
+  .modal-body{padding:26px 26px 28px;}
+  .modal-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:10px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .modal-meta svg{width:12px; height:12px; stroke:var(--ink-soft); fill:none; stroke-width:1.8;}
+  .modal-body h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:1.5rem;
+    margin:0 0 12px;
+    letter-spacing:-0.01em;
+  }
+  .modal-body p{
+    color:var(--ink-soft);
+    line-height:1.7;
+    font-size:1.02rem;
+    margin:0 0 18px;
+  }
+  .modal-tags{display:flex; flex-wrap:wrap; gap:7px;}
+  .fullres-link{
+    display:inline-flex; align-items:center; gap:6px;
+    margin-top:18px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    letter-spacing:0.04em;
+    color:var(--accent);
+    text-decoration:none;
+    border:1px solid var(--line);
+    padding:8px 14px;
+    border-radius:20px;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .fullres-link:hover{border-color:var(--accent); transform:translateY(-1px);}
+  .fullres-link svg{width:13px; height:13px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+</style>
+</head>
+<body>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card" id="modalCard">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">Welcome to my page</div>
+    <button class="toggle-btn" id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Simply an online catalog of <em>stuff I like :)</em></h1>
+    <p>A running log of plants, animals, and the places I've visited or stopped to ponder and absorb. Alongside the university years, films, songs, and video games that shaped these good years of my life.</p>
+  </div>
+</section>
+
+<div class="filterbar">
+  <div class="wrap filterbar-inner">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="text" id="searchInput" placeholder="Search title or description…" aria-label="Search posts by title or description">
+    </div>
+    <div class="filterbar-inner" id="filterBar" style="gap:10px; flex-wrap:wrap;"></div>
+  </div>
+</div>
+
+<section class="section" id="photo-section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Photographs</h2>
+      <span class="count" id="photoCount"></span>
+    </div>
+    <div class="filmstrip" id="photoGrid"></div>
+    <div class="empty-note" id="photoEmpty" style="display:none;">No frames match — try a different search or clear the filter.</div>
+  </div>
+</section>
+
+<section class="section" id="journal-section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Journal</h2>
+      <span class="count" id="entryCount"></span>
+    </div>
+    <div class="entries" id="entryList"></div>
+    <div class="empty-note" id="entryEmpty" style="display:none;">No entries match — try a different search or clear the filter.</div>
+  </div>
+</section>
+
+<section class="section" id="contact-section">
+  <div class="wrap contact-inner">
+    <div>
+      <p class="contact-eyebrow">Get in touch</p>
+      <h2 class="contact-h2">Say hi.</h2>
+    </div>
+    <a class="contact-chip" href="https://discord.com/users/yk_61623" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 5.4A18 18 0 0 0 15.6 4c-.2.4-.5.9-.6 1.3a16.8 16.8 0 0 0-5 0A8 8 0 0 0 9.3 4a18 18 0 0 0-4.7 1.4C1.7 9.6 1 13.6 1.3 17.6a18 18 0 0 0 5.5 2.7c.4-.6.8-1.2 1.1-1.9-.6-.2-1.2-.5-1.8-.9l.4-.3c3.5 1.6 7.3 1.6 10.7 0l.4.3c-.6.4-1.2.7-1.8.9.3.7.7 1.3 1.1 1.9a18 18 0 0 0 5.5-2.7c.4-4.6-.8-8.6-2.1-12.2ZM8.7 15.1c-1 0-1.9-1-1.9-2.1 0-1.2.8-2.1 1.9-2.1s1.9 1 1.9 2.1c0 1.1-.9 2.1-1.9 2.1Zm6.6 0c-1 0-1.9-1-1.9-2.1 0-1.2.8-2.1 1.9-2.1s1.9 1 1.9 2.1c0 1.1-.8 2.1-1.9 2.1Z"/></svg>
+      <span>@yk_61623</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Static site hosted and updated via GitHub pages</div>
+</footer>
+
+<script>
+(function(){
+
+  const photos = [
+    { id:1, title:"Platform, 6:12am", location:"Bandra Station, Mumbai", description:"A commuter half-asleep under sodium light, waiting for a train that's already late.", tags:["People"], colors:["#3b3f45","#12130f"], fullRes:"https://drive.google.com/file/d/REPLACE_WITH_FILE_ID_1/view" },
+    { id:2, title:"Coastal Static", location:"Varkala Cliff, Kerala", description:"Fifteen seconds of shutter turned a rough sea into fog and a lighthouse into a held breath.", tags:["Nature"], colors:["#7d97a6","#2a3b45"], fullRes:"https://drive.google.com/file/d/REPLACE_WITH_FILE_ID_2/view" },
+    { id:3, title:"Neon Noodle Bar", location:"Camac Street, Kolkata", description:"Steam off the woks catching every sign above the counter, all color and no quiet.", tags:["Others"], colors:["#7a2e3d","#1b1420"], fullRes:"https://drive.google.com/file/d/REPLACE_WITH_FILE_ID_3/view" },
+    { id:4, title:"Backyard, June", location:"Family home, Rohtak", description:"My sister mid-laugh on the porch steps, the kind of afternoon that felt like it wouldn't end.", tags:["People"], colors:["#a68a5b","#3a2f22"], fullRes:"https://drive.google.com/file/d/REPLACE_WITH_FILE_ID_4/view" },
+    { id:5, title:"Fog Over the Ridge", location:"Triund Trail, Himachal Pradesh", description:"The treeline disappearing a little more with every hundred meters of climb.", tags:["Nature"], colors:["#8b8b8b","#2c2c2c"], fullRes:"https://drive.google.com/file/d/REPLACE_WITH_FILE_ID_5/view" },
+    { id:6, title:"Reflections, 42nd", location:"Connaught Place, Delhi", description:"Wet pavement doubling the skyline after a storm that cleared out just before dusk.", tags:["Others"], colors:["#4b6b7a","#101418"], fullRes:"https://drive.google.com/file/d/REPLACE_WITH_FILE_ID_6/view" },
+    { id:7, title:"Study of Hands", location:"Family home, Rohtak", description:"My grandfather's hands mid-story, still telling half the tale before his mouth catches up.", tags:["People"], colors:["#7d7466","#22201c"], fullRes:"https://drive.google.com/file/d/REPLACE_WITH_FILE_ID_7/view" },
+    { id:8, title:"Low Tide", location:"Diu Coastline, Gujarat", description:"Sandbars exposed at dawn, a whole second coastline that only shows up twice a day.", tags:["Nature"], colors:["#c98a52","#3a2416"], fullRes:"https://drive.google.com/file/d/REPLACE_WITH_FILE_ID_8/view" },
+  ];
+
+  const entries = [
+    {
+      id:1, kind:"Video Games", date:"Aug 14", read:"6 min",
+      title:"Elden Ring and the mercy of getting lost",
+      body:"I've stopped treating the map as a checklist. Half the best moments this week came from ignoring the quest marker entirely and following a weird light in the distance instead.",
+      tags:["Video Games"]
+    },
+    {
+      id:2, kind:"Music", date:"Aug 09", read:"3 min",
+      title:"The new Nilüfer Yanya record on repeat",
+      body:"There's a guitar tone on the third track I keep rewinding for — thin, almost broken, but it's exactly what the song needed. Been thinking about restraint as a production choice lately.",
+      tags:["Music"]
+    },
+    {
+      id:3, kind:"Films", date:"Aug 03", read:"5 min",
+      title:"Rewatching Paris, Texas after a decade",
+      body:"It hit completely differently this time. Less about the road, more about the silences between people who love each other and still can't say the thing.",
+      tags:["Films"]
+    },
+    {
+      id:4, kind:"Others", date:"Jul 27", read:"4 min",
+      title:"Notes from a roll of expired Portra",
+      body:"Two stops of color shift and I'm not mad about it. The coastal shots came out warmer than reality, which honestly suits the memory better than the truth would have.",
+      tags:["Others"]
+    },
+    {
+      id:5, kind:"Video Games", date:"Jul 19", read:"4 min",
+      title:"Finally starting a long-overdue classic",
+      body:"Started Chrono Trigger for the first time this week, thirty years late. Turns out the reputation is earned — the pacing is unlike anything shipping today.",
+      tags:["Video Games"]
+    },
+    {
+      id:6, kind:"Music", date:"Jul 11", read:"2 min",
+      title:"A playlist for editing photos at night",
+      body:"Mostly instrumental, mostly slow. Turns out ambient records and a lightroom session pair better than almost anything else I've tried.",
+      tags:["Music"]
+    },
+  ];
+
+  const allTags = ["Music", "Video Games", "Films", "Nature", "People", "Others"];
+
+  let activeTag = null;
+  let searchQuery = '';
+
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', () => {
+    searchQuery = searchInput.value.trim().toLowerCase();
+    renderPhotos();
+    renderEntries();
+  });
+
+  // ---- theme ----
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  function setTheme(dark){
+    root.classList.toggle('dark', dark);
+    themeBtn.setAttribute('aria-pressed', String(dark));
+  }
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(prefersDark);
+  themeBtn.addEventListener('click', () => setTheme(!root.classList.contains('dark')));
+
+  // ---- filter bar ----
+  const filterBar = document.getElementById('filterBar');
+  function renderFilters(){
+    filterBar.innerHTML = '';
+    const label = document.createElement('span');
+    label.className = 'filter-label';
+    label.textContent = 'Filter by tag';
+    filterBar.appendChild(label);
+
+    allTags.forEach(tag => {
+      const btn = document.createElement('button');
+      btn.className = 'chip' + (activeTag === tag ? ' active' : '');
+      btn.textContent = tag;
+      btn.addEventListener('click', () => {
+        activeTag = (activeTag === tag) ? null : tag;
+        renderFilters();
+        renderPhotos();
+        renderEntries();
+      });
+      filterBar.appendChild(btn);
+    });
+
+    if(activeTag){
+      const clear = document.createElement('button');
+      clear.className = 'chip clear';
+      clear.textContent = 'Clear filter ×';
+      clear.addEventListener('click', () => {
+        activeTag = null;
+        renderFilters();
+        renderPhotos();
+        renderEntries();
+      });
+      filterBar.appendChild(clear);
+    }
+  }
+
+  // ---- photos ----
+  const photoGrid = document.getElementById('photoGrid');
+  const photoCount = document.getElementById('photoCount');
+  const photoEmpty = document.getElementById('photoEmpty');
+  function renderPhotos(){
+    let list = activeTag ? photos.filter(p => p.tags.includes(activeTag)) : photos;
+    if(searchQuery){
+      list = list.filter(p =>
+        p.title.toLowerCase().includes(searchQuery) ||
+        p.description.toLowerCase().includes(searchQuery) ||
+        p.location.toLowerCase().includes(searchQuery)
+      );
+    }
+    photoGrid.innerHTML = '';
+    photoGrid.style.display = list.length ? 'grid' : 'none';
+    photoEmpty.style.display = list.length ? 'none' : 'block';
+    photoCount.textContent = list.length + (list.length === 1 ? ' frame' : ' frames');
+
+    list.forEach((p, i) => {
+      const frame = document.createElement('div');
+      frame.className = 'frame';
+      frame.setAttribute('role', 'button');
+      frame.setAttribute('tabindex', '0');
+      frame.innerHTML = `
+        <div class="frame-img" style="--fc1:${p.colors[0]};--fc2:${p.colors[1]}">
+          <span class="frame-num">#${String(p.id).padStart(3,'0')}</span>
+        </div>
+        <div class="frame-meta">
+          <p class="ftitle">${p.title}</p>
+          <p class="floc"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.3"/></svg>${p.location}</p>
+          <p class="fdesc">${p.description}</p>
+          <div class="ftags">
+            ${p.tags.map(t => `<span class="tag-stamp" data-tag="${t}">${t}</span>`).join('')}
+          </div>
+        </div>`;
+      frame.querySelectorAll('.tag-stamp').forEach(stamp => {
+        stamp.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const t = stamp.getAttribute('data-tag');
+          activeTag = (activeTag === t) ? null : t;
+          renderFilters(); renderPhotos(); renderEntries();
+        });
+      });
+      const openThisPhoto = () => openPhotoModal(p);
+      frame.addEventListener('click', openThisPhoto);
+      frame.addEventListener('keydown', (ev) => {
+        if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); openThisPhoto(); }
+      });
+      photoGrid.appendChild(frame);
+    });
+  }
+
+  // ---- entries ----
+  const entryList = document.getElementById('entryList');
+  const entryCount = document.getElementById('entryCount');
+  const entryEmpty = document.getElementById('entryEmpty');
+  function renderEntries(){
+    let list = activeTag ? entries.filter(e => e.tags.includes(activeTag)) : entries;
+    if(searchQuery){
+      list = list.filter(e =>
+        e.title.toLowerCase().includes(searchQuery) ||
+        e.body.toLowerCase().includes(searchQuery)
+      );
+    }
+    entryList.innerHTML = '';
+    entryList.style.display = list.length ? 'flex' : 'none';
+    entryEmpty.style.display = list.length ? 'none' : 'block';
+    entryCount.textContent = list.length + (list.length === 1 ? ' entry' : ' entries');
+
+    list.forEach(e => {
+      const row = document.createElement('article');
+      row.className = 'entry';
+      row.setAttribute('role', 'button');
+      row.setAttribute('tabindex', '0');
+      row.innerHTML = `
+        <div class="entry-meta">
+          <span class="kind">${e.kind}</span><br>
+          ${e.date}<br>${e.read} read
+        </div>
+        <div>
+          <h3>${e.title}</h3>
+          <p>${e.body}</p>
+          <div class="entry-tags">
+            ${e.tags.map(t => `<span class="tag-stamp" data-tag="${t}">${t}</span>`).join('')}
+          </div>
+        </div>`;
+      row.querySelectorAll('.tag-stamp').forEach(stamp => {
+        stamp.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const t = stamp.getAttribute('data-tag');
+          activeTag = (activeTag === t) ? null : t;
+          renderFilters(); renderPhotos(); renderEntries();
+        });
+      });
+      const openThisEntry = () => openEntryModal(e);
+      row.addEventListener('click', openThisEntry);
+      row.addEventListener('keydown', (ev) => {
+        if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); openThisEntry(); }
+      });
+      entryList.appendChild(row);
+    });
+  }
+
+  renderFilters();
+  renderPhotos();
+  renderEntries();
+
+  // ---- modal ----
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalBody = document.getElementById('modalBody');
+  const modalClose = document.getElementById('modalClose');
+
+  function bindModalTags(){
+    modalBody.querySelectorAll('.tag-stamp').forEach(stamp => {
+      stamp.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        const t = stamp.getAttribute('data-tag');
+        activeTag = (activeTag === t) ? null : t;
+        closeModal();
+        renderFilters(); renderPhotos(); renderEntries();
+      });
+    });
+  }
+
+  function openModal(html){
+    modalBody.innerHTML = html;
+    bindModalTags();
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    modalClose.focus();
+  }
+
+  function closeModal(){
+    modalOverlay.classList.remove('open');
+    modalBody.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+
+  function openPhotoModal(p){
+    openModal(`
+      <div class="modal-img" style="background:linear-gradient(150deg, ${p.colors[0]}, ${p.colors[1]})"></div>
+      <div class="modal-body">
+        <div class="modal-meta">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.3"/></svg>
+          ${p.location}
+        </div>
+        <h3>${p.title}</h3>
+        <p>${p.description}</p>
+        <div class="modal-tags">
+          ${p.tags.map(t => `<span class="tag-stamp" data-tag="${t}">${t}</span>`).join('')}
+        </div>
+        <a class="fullres-link" href="${p.fullRes}" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          View full resolution
+        </a>
+      </div>`);
+  }
+
+  function openEntryModal(e){
+    openModal(`
+      <div class="modal-body" style="padding-top:26px;">
+        <div class="modal-meta">${e.kind} · ${e.date} · ${e.read} read</div>
+        <h3>${e.title}</h3>
+        <p>${e.body}</p>
+        <div class="modal-tags">
+          ${e.tags.map(t => `<span class="tag-stamp" data-tag="${t}">${t}</span>`).join('')}
+        </div>
+      </div>`);
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (ev) => {
+    if(ev.target === modalOverlay) closeModal();
+  });
+  document.addEventListener('keydown', (ev) => {
+    if(ev.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+  });
+})();
+</script>
+
+</body>
+</html>
